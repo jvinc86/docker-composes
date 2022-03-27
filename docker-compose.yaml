@@ -1,0 +1,114 @@
+version: "3.9"
+services:
+  # jenkins-lab:
+  #   build:
+  #     context: ./build_images/lab/control-plane
+  #     dockerfile: Dockerfile-cp
+  #   restart: always
+  #   container_name: control-plane-lab
+  #   networks:
+  #     - laboratorio
+  #   privileged: true
+  #   hostname: control-plane-lab
+  #   user: root
+  #   labels:
+  #     com.example.description: "Jenkins Control Plane by Vincent"
+  #   ports: 
+  #     - "8080:8080"
+  #     - "50000:50000"
+  #   volumes: 
+  #     - /home/vcamacho/idnomic/jenkins_compose/LAB_jenkins_configuration:/var/jenkins_home
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  # agent-jenkins:
+  #   build:
+  #     context: ./build_images/lab/agent
+  #     dockerfile: Dockerfile-ag
+  #   restart: always
+  #   container_name: agent-1-lab
+  #   networks:
+  #     - laboratorio
+  #   privileged: true
+  #   hostname: agent-1-lab
+  #   user: root
+  #   labels:
+  #     com.example.description: "Jenkins Agent 1 by Vincent"
+  #   expose:
+  #     - 22
+  #   env_file:
+  #     - ./build_images/lab/agent/public-key-agent.env
+  # agent2-lab:
+  #   depends_on:
+  #   - agent-jenkins
+  #   image: idnomic_agent-jenkins:latest
+  #   restart: always
+  #   container_name: agent-2-lab
+  #   networks:
+  #     - laboratorio
+  #   privileged: true
+  #   hostname: agent-2-lab
+  #   user: root
+  #   labels:
+  #     com.example.description: "Jenkins Agent 2 by Vincent"
+  #   expose:
+  #     - 22
+  #   env_file:
+  #     - ./build_images/lab/agent/public-key-agent.env
+
+  jenkins-prd:
+    build:
+      context: ./build_images/prd/control-plane
+      dockerfile: Dockerfile-cp
+    restart: always
+    container_name: control-plane-prd
+    networks:
+      - produccion
+    privileged: true
+    hostname: control-plane-prd
+    user: root
+    labels:
+      com.example.description: "Jenkins Control Plane by Vincent"
+    ports: 
+      - "8081:8080"
+      - "50001:50001"
+    volumes: 
+      - /home/vcamacho/idnomic/jenkins_compose/PRD_jenkins_configuration:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+  # agent1-prd:
+  #   depends_on:
+  #   - agent-jenkins
+  #   image: idnomic_agent-jenkins:latest
+  #   restart: always
+  #   container_name: agent-1-prd
+  #   networks:
+  #     - produccion
+  #   privileged: true
+  #   hostname: agent-1-prd
+  #   user: root
+  #   labels:
+  #     com.example.description: "Jenkins Agent 1 by Vincent"
+  #   expose:
+  #     - 22
+  #   env_file:
+  #     - ./build_images/lab/agent/public-key-agent.env
+  # agent2-prd:
+  #   depends_on:
+  #   - agent-jenkins
+  #   image: idnomic_agent-jenkins:latest
+  #   restart: always
+  #   container_name: agent-2-prd
+  #   networks:
+  #     - produccion
+  #   privileged: true
+  #   hostname: agent-2-prd
+  #   user: root
+  #   labels:
+  #     com.example.description: "Jenkins Agent 2 by Vincent"
+  #   expose:
+  #     - 22
+  #   env_file:
+  #     - ./build_images/lab/agent/public-key-agent.env
+networks:
+  laboratorio:
+    name: red-testing
+  produccion:
+    name: red-produccion

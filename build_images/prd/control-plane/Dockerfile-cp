@@ -1,0 +1,14 @@
+FROM jenkins/jenkins:lts-jdk11
+ENV JENKINS_SLAVE_AGENT_PORT 50001
+LABEL maintainer="vincent@vincenup.com"
+USER root
+ARG USER_NAME=jenkins
+RUN true \
+  && apt-get update --allow-releaseinfo-change && apt-get upgrade -y \
+  && apt-get install -y apt-utils sudo vim curl wget git tar tree gnupg2 gnupg tmux python3 jq net-tools ntp ntpdate gpm locate dnsutils iotop openssh-server \
+  && true
+RUN echo "$USER_NAME ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN mkdir -p /usr/share/jenkins/ref/plugins/
+COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
+USER jenkins

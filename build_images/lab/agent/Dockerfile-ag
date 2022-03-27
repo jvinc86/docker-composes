@@ -1,0 +1,7 @@
+FROM jenkins/ssh-agent:latest-jdk11
+LABEL maintainer="vincent@vincenup.com"
+USER root
+RUN true \
+  && apt-get update --allow-releaseinfo-change && apt-get upgrade -y \
+  && apt-get install -y apt-utils sudo vim curl wget git tar tree gnupg2 gnupg tmux python3 jq net-tools ntp ntpdate gpm locate dnsutils iotop openssh-server \
+  && true
