@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  apache-servidor:
+    build:
+      context: .
+      dockerfile: Dockerfile-test
+    container_name: apache-server
+    hostname: apache-server
+    restart: always
+    ports:
+      - "8080:80"
