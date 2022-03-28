@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  ansible-server:
+    build:
+      context: ./build_images/lab/master
+      dockerfile: Dockerfile-master
+    restart: always
+    container_name: ansible-server
+    networks:
+      - red-ansible
+    privileged: true
+    hostname: ansible-server
+    user: root
+    labels:
+      com.example.description: "Ansible Master Server by Vincent"
+    expose:
+      - 22
+    volumes: 
+      - /home/vcamacho/docker/dcmp/ansible-compose/home-ansibleadmin:/home/ansibleadmin
+  ubuntu-host-1:
+    build:
+      context: ./build_images/lab/host
+      dockerfile: Dockerfile-host
+    restart: always
+    container_name: ubuntu-host-1
+    networks:
+      - red-ansible
+    privileged: true
+    hostname: ubuntu-host-1
+    user: root
+    labels:
+      com.example.description: "Host 1 Ubuntu"
+    expose:
+      - 22
+networks:
+  red-ansible:
+    name: ansible-red
